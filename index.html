@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROTOLAB — STEM ХАБ Скопје</title>
+<!-- Google Fonts: модерни фонтови + Roboto + Tinos -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#1B2A4A;
+  --orange:#FF6B2B;
+  --orange-light:#ff8a4a;
+  --blue:#4A90D9;
+  --green:#2ECC71;
+  --purple:#7F5FBF;
+  --amber:#E8A020;
+  --eco:#27AE60;
+  --gray-50:#f8fafc;
+  --gray-100:#f1f5f9;
+  --gray-200:#e2e8f0;
+  --gray-300:#cbd5e1;
+  --gray-400:#94a3b8;
+  --gray-500:#64748b;
+  --gray-600:#475569;
+  --gray-700:#334155;
+  --gray-800:#1e293b;
+  --gray-900:#0f172a;
+  --white:#ffffff;
+  --shadow:0 4px 24px rgba(0,0,0,0.08);
+  --shadow-hover:0 12px 48px rgba(0,0,0,0.15);
+  --radius:16px;
+  --transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+  --font-primary:'Plus Jakarta Sans',sans-serif;
+  --font-heading:'Poppins',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-roboto:'Roboto',sans-serif;
+  --font-tinos:'Tinos',serif;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-50);color:var(--gray-900);line-height:1.7;overflow-x:hidden}
+
+/* ─── LANGUAGE SWITCHER ─── */
+.lang-switcher{display:flex;gap:4px;align-items:center;margin-left:16px}
+.lang-btn{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.08);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:var(--transition);font-family:var(--font-body)}
+.lang-btn:hover{background:rgba(255,255,255,0.15);color:#fff}
+.lang-btn.active{background:rgba(255,107,43,0.2);border-color:var(--orange);color:var(--orange)}
+
+/* ─── SCROLL ANIMATIONS ─── */
+.reveal{opacity:0;transform:translateY(40px);transition:all 0.7s cubic-bezier(0.4,0,0.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-60px);transition:all 0.7s cubic-bezier(0.4,0,0.2,1)}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(60px);transition:all 0.7s cubic-bezier(0.4,0,0.2,1)}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+.reveal-scale{opacity:0;transform:scale(0.9);transition:all 0.7s cubic-bezier(0.4,0,0.2,1)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--navy);padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.15);transition:var(--transition)}
+.topbar.scrolled{height:60px;background:rgba(27,42,74,0.95);backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo-icon{width:40px;height:40px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff;transition:var(--transition);font-family:var(--font-heading)}
+.logo-icon:hover{transform:rotate(-10deg) scale(1.05)}
+.logo-text{color:#fff;font-size:20px;font-weight:800;letter-spacing:-0.5px;transition:var(--transition);font-family:var(--font-heading)}
+.logo-text span{color:var(--orange)}
+.logo-sub{font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:1.2px;text-transform:uppercase;display:block;margin-top:-2px;font-family:var(--font-body)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;font-weight:500;transition:var(--transition);position:relative;font-family:var(--font-body)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--orange);transition:var(--transition)}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.btn-nav{background:var(--orange);color:#fff!important;padding:8px 20px;border-radius:8px;font-weight:600!important}
+.btn-nav::after{display:none!important}
+.btn-nav:hover{background:var(--orange-light)!important;transform:translateY(-2px);box-shadow:0 4px 20px rgba(255,107,43,0.3)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:rgba(255,255,255,0.1);border:none;border-radius:8px;transition:var(--transition)}
+.burger:hover{background:rgba(255,255,255,0.2)}
+.burger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:var(--transition)}
+.burger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* ─── SIDEBAR ─── */
+.sidebar{display:none;position:fixed;top:72px;left:0;bottom:0;width:280px;background:var(--navy);z-index:150;padding:24px;transform:translateX(-100%);transition:transform 0.3s ease;overflow-y:auto}
+.sidebar.open{transform:translateX(0)}
+.sidebar a{display:block;color:rgba(255,255,255,0.7);text-decoration:none;padding:12px 0;font-size:15px;font-weight:500;border-bottom:1px solid rgba(255,255,255,0.06);transition:var(--transition);font-family:var(--font-body)}
+.sidebar a:hover{color:#fff;padding-left:8px}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:149}
+.sidebar-overlay.show{display:block}
+
+/* ─── HERO ─── */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2c4a7a 100%);padding:120px 32px 80px;text-align:center;position:relative;overflow:hidden;margin-top:72px}
+.hero::before{content:'';position:absolute;top:-40%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,107,43,0.15) 0%,transparent 70%);border-radius:50%;pointer-events:none;animation:pulseGlow 8s ease-in-out infinite}
+.hero::after{content:'';position:absolute;bottom:-20%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,43,0.08) 0%,transparent 70%);border-radius:50%;pointer-events:none;animation:pulseGlow 10s ease-in-out infinite reverse}
+@keyframes pulseGlow{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.hero-content{max-width:820px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{display:inline-block;background:rgba(255,107,43,0.2);color:var(--orange);padding:6px 18px;border-radius:50px;font-size:13px;font-weight:600;letter-spacing:0.5px;margin-bottom:20px;border:1px solid rgba(255,107,43,0.2);animation:floatBadge 3s ease-in-out infinite;font-family:var(--font-body)}
+@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* HERO NASLOV — Roboto, тенок, центриран */
+.hero h1{font-family:'Roboto',sans-serif;font-weight:300;text-align:center;letter-spacing:0.5px;color:#fff;font-size:52px;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--orange)}
+
+/* HERO PARAGRAPH — Tinos, сериф, потенок */
+.hero p{font-family:'Tinos',serif;font-weight:400;text-align:center;max-width:620px;margin:0 auto 32px;font-size:18px;color:rgba(255,255,255,0.75);line-height:1.7}
+
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--orange);color:#fff;padding:14px 40px;border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;font-family:var(--font-body)}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--orange-light),var(--orange));opacity:0;transition:var(--transition)}
+.btn-primary:hover::before{opacity:1}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,107,43,0.4)}
+.btn-primary span{position:relative;z-index:1}
+.btn-secondary{background:rgba(255,255,255,0.1);color:#fff;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:var(--transition);font-family:var(--font-body)}
+.btn-secondary:hover{background:rgba(255,255,255,0.2);transform:translateY(-3px);border-color:var(--orange)}
+.hero-stats{display:flex;gap:48px;justify-content:center;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08)}
+.hero-stat{text-align:center;transition:var(--transition)}
+.hero-stat:hover{transform:translateY(-4px)}
+.hero-stat .num{color:#fff;font-size:32px;font-weight:800;display:block;font-family:var(--font-heading)}
+.hero-stat .num .counter{display:inline-block}
+.hero-stat .label{color:rgba(255,255,255,0.5);font-size:13px;font-weight:500;margin-top:2px;display:block;font-family:var(--font-body)}
+
+/* ─── HYMNA + MP3 PLAYER ─── */
+.hymna-box{background:rgba(255,107,43,0.08);border:1px solid rgba(255,107,43,0.15);border-radius:12px;padding:18px 24px;margin:24px auto;max-width:820px;transition:var(--transition);text-align:center}
+.hymna-box:hover{background:rgba(255,107,43,0.14);box-shadow:0 8px 32px rgba(255,107,43,0.1)}
+.hymna-box .h-title{color:var(--orange);font-size:16px;font-weight:700;font-family:var(--font-heading)}
+.hymna-box .h-line{color:var(--gray-600);font-size:14px;font-style:italic;margin-top:4px;font-family:var(--font-body)}
+.hymna-box .h-click{color:var(--gray-400);font-size:11px;margin-top:6px;transition:var(--transition);cursor:pointer;font-family:var(--font-body)}
+.hymna-box .h-click:hover{color:var(--orange)}
+.hymna-player{display:flex;align-items:center;gap:16px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.hymna-player audio{max-width:300px;width:100%;height:40px;border-radius:8px;background:rgba(255,255,255,0.05)}
+.hymna-player audio::-webkit-media-controls-panel{background:rgba(27,42,74,0.9);border-radius:8px}
+.hymna-player .play-btn{background:var(--orange);color:#fff;border:none;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center}
+.hymna-player .play-btn:hover{transform:scale(1.1);box-shadow:0 4px 20px rgba(255,107,43,0.3)}
+.hymna-player .play-btn.playing{background:var(--navy)}
+
+/* ─── SECTION ─── */
+.section{padding:80px 32px}
+.section-header{text-align:center;max-width:640px;margin:0 auto 48px}
+.section-header h2{font-size:40px;font-weight:800;letter-spacing:-1.5px;color:var(--gray-900);font-family:var(--font-heading)}
+.section-header h2 span{color:var(--orange);position:relative}
+.section-header h2 span::after{content:'';position:absolute;bottom:2px;left:0;right:0;height:6px;background:rgba(255,107,43,0.15);border-radius:3px;z-index:-1}
+.section-header p{color:var(--gray-500);font-size:18px;margin-top:8px;font-family:var(--font-body)}
+
+/* ─── PLANS ─── */
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.plan-card{background:var(--white);border-radius:var(--radius);padding:32px 28px;border:1px solid var(--gray-200);transition:var(--transition);position:relative;display:flex;flex-direction:column}
+.plan-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-hover);border-color:var(--orange)}
+.plan-card.popular{border-color:var(--orange);box-shadow:0 8px 32px rgba(255,107,43,0.15)}
+.plan-card.popular::before{content:'Most Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;padding:4px 20px;border-radius:50px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;animation:pulseBadge 2s ease-in-out infinite;font-family:var(--font-body)}
+@keyframes pulseBadge{0%,100%{box-shadow:0 0 0 0 rgba(255,107,43,0.4)}50%{box-shadow:0 0 0 8px rgba(255,107,43,0)}}
+.plan-card .plan-name{font-size:20px;font-weight:700;color:var(--gray-900);font-family:var(--font-heading)}
+.plan-card .plan-desc{font-size:13px;color:var(--gray-500);margin-top:4px;min-height:44px;font-family:var(--font-body)}
+.plan-card .plan-price{font-size:42px;font-weight:800;color:var(--gray-900);margin:16px 0 4px;font-family:var(--font-heading)}
+.plan-card .plan-price span{font-size:16px;font-weight:500;color:var(--gray-400);font-family:var(--font-body)}
+.plan-card .plan-period{font-size:13px;color:var(--gray-400);margin-bottom:16px;font-family:var(--font-body)}
+.plan-card .plan-btn{background:var(--gray-100);color:var(--gray-700);padding:12px;border-radius:10px;font-weight:600;border:none;cursor:pointer;transition:var(--transition);margin:16px 0;font-size:15px;font-family:var(--font-body)}
+.plan-card .plan-btn:hover{background:var(--orange);color:#fff;transform:scale(1.02)}
+.plan-card.popular .plan-btn{background:var(--orange);color:#fff}
+.plan-card.popular .plan-btn:hover{background:var(--orange-light);transform:scale(1.04)}
+.plan-features{list-style:none;padding:0;margin:0;flex:1}
+.plan-features li{padding:8px 0;font-size:14px;color:var(--gray-600);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--gray-100);transition:var(--transition);font-family:var(--font-body)}
+.plan-features li:hover{padding-left:4px}
+.plan-features li:last-child{border-bottom:none}
+.plan-features li::before{content:'✓';color:var(--orange);font-weight:700;font-size:16px}
+
+/* ─── CATEGORIES ─── */
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.cat-card{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--gray-200);transition:var(--transition);cursor:pointer;position:relative;overflow:hidden}
+.cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;transition:var(--transition)}
+.cat-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.cat-card .cat-icon{font-size:32px;margin-bottom:10px;display:inline-block;transition:var(--transition)}
+.cat-card:hover .cat-icon{transform:scale(1.1) rotate(-5deg)}
+.cat-card .cat-title{font-size:18px;font-weight:700;color:var(--gray-900);font-family:var(--font-heading)}
+.cat-card .cat-desc{font-size:13px;color:var(--gray-500);margin:6px 0 14px;font-family:var(--font-body)}
+.cat-card .cat-tags{display:flex;flex-wrap:wrap;gap:6px}
+.cat-card .cat-tag{font-size:11px;font-weight:600;padding:4px 12px;border-radius:50px;background:var(--gray-100);color:var(--gray-600);transition:var(--transition);font-family:var(--font-body)}
+.cat-card:hover .cat-tag{background:var(--orange);color:#fff}
+
+/* ─── CROSSLAB MATRIX ─── */
+.matrix-wrap{overflow-x:auto;max-width:1200px;margin:0 auto}
+table.matrix{border-collapse:collapse;width:100%;min-width:700px;font-size:13px}
+table.matrix th,table.matrix td{border:1px solid var(--gray-200);padding:10px 12px;text-align:center}
+table.matrix th{background:var(--gray-100);font-weight:700;color:var(--gray-700);font-family:var(--font-body)}
+.matrix .cell{cursor:pointer;padding:10px 8px;border-radius:8px;transition:var(--transition);display:inline-block;min-width:80px;font-weight:600;font-family:var(--font-body)}
+.matrix .cell:hover{transform:scale(1.08) translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.matrix .cell:active{transform:scale(0.95)}
+.c5{background:var(--navy);color:#fff}
+.c4{background:var(--orange);color:#fff}
+.c3{background:var(--blue);color:#fff}
+.c2{background:#E8EDF6;color:var(--navy)}
+.c1{background:#f5f5f5;color:#aaa}
+.cell-stars{font-size:12px;letter-spacing:-1px;display:block}
+.cell-lbl{font-size:9px;font-weight:600;display:block;margin-top:3px;font-family:var(--font-body)}
+.legend{display:flex;gap:20px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;font-family:var(--font-body)}
+.leg-dot{width:18px;height:18px;border-radius:4px;transition:var(--transition)}
+.leg-item:hover .leg-dot{transform:scale(1.1)}
+
+/* ─── DETAIL PANEL ─── */
+.detail-panel{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-200);display:none;overflow:hidden;margin-top:20px;max-width:1200px;margin-left:auto;margin-right:auto;transition:var(--transition)}
+.detail-panel.show{display:block;animation:slideUp 0.4s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.detail-head{background:var(--navy);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.detail-title{color:#fff;font-size:16px;font-weight:700;font-family:var(--font-heading)}
+.detail-sub{color:rgba(255,255,255,0.55);font-size:12px;margin-top:2px;font-family:var(--font-body)}
+.detail-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.detail-body{padding:20px 24px}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.proj{background:var(--gray-50);border-radius:10px;padding:14px 16px;border:1px solid var(--gray-200);transition:var(--transition)}
+.proj:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.proj-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:6px;font-family:var(--font-heading)}
+.proj-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.proj-item{font-size:12px;color:var(--gray-600);padding:3px 0;border-bottom:1px solid var(--gray-100);display:flex;gap:6px;align-items:flex-start;font-family:var(--font-body)}
+.proj-item:last-child{border-bottom:none}
+.proj-item:before{content:"•";color:var(--orange);font-weight:700;flex-shrink:0}
+.detail-close{background:rgba(255,255,255,0.15);border:none;color:#fff;padding:4px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:var(--transition);font-family:var(--font-body)}
+.detail-close:hover{background:rgba(255,255,255,0.25)}
+
+/* ─── TRIPLE PROJECTS ─── */
+.triple-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;max-width:1200px;margin:0 auto;margin-top:16px}
+.triple{background:var(--navy);border-radius:12px;padding:18px 20px;transition:var(--transition);cursor:pointer}
+.triple:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(27,42,74,0.3)}
+.triple-title{color:var(--orange);font-size:13px;font-weight:700;margin-bottom:4px;font-family:var(--font-heading)}
+.triple-desc{color:rgba(255,255,255,0.7);font-size:12px;line-height:1.6;font-family:var(--font-body)}
+.triple-tags{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.triple-tag{font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);transition:var(--transition);font-family:var(--font-body)}
+.triple:hover .triple-tag{background:rgba(255,107,43,0.2)}
+
+/* ─── GRAND PROJECTS ─── */
+.grand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
+.grand-card{background:var(--white);border-radius:var(--radius);padding:24px;border:1px solid var(--gray-200);transition:var(--transition)}
+.grand-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);border-color:var(--orange)}
+.grand-card .g-title{font-size:16px;font-weight:700;color:var(--gray-900);font-family:var(--font-heading)}
+.grand-card .g-desc{font-size:13px;color:var(--gray-500);margin:8px 0 14px;line-height:1.6;font-family:var(--font-body)}
+.grand-card .g-tags{display:flex;flex-wrap:wrap;gap:6px}
+.grand-card .g-tag{font-size:10px;font-weight:600;padding:4px 12px;border-radius:50px;background:var(--navy);color:#fff;transition:var(--transition);font-family:var(--font-body)}
+.grand-card:hover .g-tag{background:var(--orange)}
+
+/* ─── EXTRA ─── */
+.extra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.extra-card{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--gray-200);border-top:4px solid var(--orange);transition:var(--transition)}
+.extra-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+.extra-card .ex-title{font-size:17px;font-weight:700;color:var(--gray-900);font-family:var(--font-heading)}
+.extra-card .ex-desc{font-size:13px;color:var(--gray-500);margin:6px 0 12px;line-height:1.6;font-family:var(--font-body)}
+.extra-card .ex-items{list-style:none;padding:0}
+.extra-card .ex-items li{font-size:13px;color:var(--gray-600);padding:4px 0;padding-left:18px;position:relative;font-family:var(--font-body)}
+.extra-card .ex-items li::before{content:'▸';position:absolute;left:0;color:var(--orange);font-weight:700}
+
+/* ─── USP ─── */
+.usp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.usp-card{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--gray-200);text-align:center;transition:var(--transition)}
+.usp-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:var(--shadow-hover);border-color:var(--orange)}
+.usp-card .usp-icon{font-size:40px;margin-bottom:12px;display:inline-block;transition:var(--transition)}
+.usp-card:hover .usp-icon{transform:scale(1.1) rotate(-5deg)}
+.usp-card .usp-title{font-size:16px;font-weight:700;color:var(--gray-900);font-family:var(--font-heading)}
+.usp-card .usp-desc{font-size:13px;color:var(--gray-500);margin-top:6px;line-height:1.6;font-family:var(--font-body)}
+
+/* ─── SOCIAL PROOF ─── */
+.social-proof{background:var(--gray-50);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+.social-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:1000px;margin:0 auto}
+.social-card{background:var(--white);border-radius:var(--radius);padding:28px;border:1px solid var(--gray-200);transition:var(--transition)}
+.social-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover)}
+.social-card .stars{color:#f59e0b;font-size:18px;letter-spacing:2px;margin-bottom:10px}
+.social-card blockquote{font-size:15px;color:var(--gray-700);font-style:italic;line-height:1.7;font-family:var(--font-body)}
+.social-card .author{font-weight:600;color:var(--gray-900);margin-top:12px;font-size:14px;font-family:var(--font-body)}
+.social-card .author span{font-weight:400;color:var(--gray-400);font-size:13px}
+
+/* ─── LAUNCH ─── */
+.launch-section{background:var(--navy);color:#fff;padding:80px 32px;text-align:center;position:relative;overflow:hidden}
+.launch-section::before{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(255,107,43,0.08) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.launch-section h2{font-size:40px;font-weight:800;margin-bottom:8px;position:relative;z-index:1;font-family:var(--font-heading)}
+.launch-section h2 span{color:var(--orange)}
+.launch-section p{color:rgba(255,255,255,0.6);font-size:18px;margin-bottom:32px;position:relative;z-index:1;font-family:var(--font-body)}
+.launch-form{display:flex;gap:12px;max-width:480px;margin:0 auto;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.launch-form input{flex:1;min-width:240px;padding:14px 20px;border-radius:12px;border:none;font-size:15px;background:rgba(255,255,255,0.08);color:#fff;outline:none;border:1px solid rgba(255,255,255,0.1);transition:var(--transition);font-family:var(--font-body)}
+.launch-form input::placeholder{color:rgba(255,255,255,0.3)}
+.launch-form input:focus{border-color:var(--orange);background:rgba(255,255,255,0.12);box-shadow:0 0 0 4px rgba(255,107,43,0.1)}
+.launch-form button{background:var(--orange);color:#fff;padding:14px 36px;border-radius:12px;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;font-family:var(--font-body)}
+.launch-form button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--orange-light),var(--orange));opacity:0;transition:var(--transition)}
+.launch-form button:hover::before{opacity:1}
+.launch-form button:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,107,43,0.3)}
+.launch-form button span{position:relative;z-index:1}
+.launch-note{color:rgba(255,255,255,0.25);font-size:12px;margin-top:16px;position:relative;z-index:1;font-family:var(--font-body)}
+
+/* ─── FOOTER ─── */
+.footer{background:var(--gray-900);color:rgba(255,255,255,0.5);padding:48px 32px;text-align:center;font-size:13px;font-family:var(--font-body)}
+.footer a{color:rgba(255,255,255,0.5);text-decoration:none;margin:0 14px;transition:var(--transition);position:relative}
+.footer a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--orange);transition:var(--transition)}
+.footer a:hover{color:#fff}
+.footer a:hover::after{width:100%}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:14px 24px;border-radius:12px;font-size:14px;font-weight:500;z-index:999;opacity:0;transition:opacity 0.4s;pointer-events:none;border-left:4px solid var(--orange);box-shadow:var(--shadow-hover);font-family:var(--font-body)}
+.toast.show{opacity:1;animation:toastSlide 0.4s ease}
+@keyframes toastSlide{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+/* ─── MODAL HYMNA ─── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-overlay.show{display:flex;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:16px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;padding:32px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:modalPop 0.4s ease}
+@keyframes modalPop{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+.modal-close{position:sticky;top:0;float:right;background:var(--navy);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);margin-bottom:10px}
+.modal-close:hover{background:var(--orange);transform:rotate(90deg)}
+.modal h2{color:var(--navy);font-size:22px;margin-bottom:4px;font-family:var(--font-heading)}
+.modal .sub{color:var(--gray-400);font-size:13px;margin-bottom:20px;font-family:var(--font-body)}
+.modal .verse{margin-bottom:18px}
+.modal .verse .label{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;font-family:var(--font-body)}
+.modal .verse .text{font-size:15px;line-height:1.9;color:#333;margin-top:4px;font-style:italic;font-family:var(--font-body)}
+.modal .refren{background:#f5f0e8;border-radius:8px;padding:16px 18px;margin:14px 0;border-left:3px solid var(--orange)}
+.modal .refren .text{font-size:16px;font-weight:700;color:var(--navy);line-height:1.9;font-family:var(--font-heading)}
+.modal .finale{background:var(--navy);border-radius:8px;padding:16px 18px;color:#fff;text-align:center;font-size:16px;font-weight:700;line-height:1.9;margin-top:10px;font-family:var(--font-heading)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .plans-grid{grid-template-columns:repeat(2,1fr)}
+  .extra-grid{grid-template-columns:repeat(2,1fr)}
+  .usp-grid{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:42px}
+  .cat-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .topbar{padding:0 16px;height:64px}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .sidebar{display:block}
+  .lang-switcher{margin-left:8px}
+  .lang-btn{font-size:9px;padding:3px 8px}
+  .hero{padding:80px 16px 60px;margin-top:64px}
+  .hero h1{font-size:30px}
+  .hero p{font-size:16px}
+  .hero-stats{flex-wrap:wrap;gap:24px}
+  .section{padding:48px 16px}
+  .section-header h2{font-size:28px}
+  .plans-grid{grid-template-columns:1fr}
+  .extra-grid{grid-template-columns:1fr}
+  .usp-grid{grid-template-columns:1fr}
+  .social-grid{grid-template-columns:1fr}
+  .launch-section{padding:48px 16px}
+  .launch-section h2{font-size:28px}
+  .launch-form input{min-width:100%}
+  .hymna-box{padding:14px 18px;margin:16px}
+  .hymna-box .h-title{font-size:14px}
+  .hymna-player audio{max-width:200px}
+  .grand-grid{grid-template-columns:1fr}
+  .triple-grid{grid-template-columns:1fr}
+  .modal{padding:24px}
+}
+@media(max-width:400px){
+  .plan-card{padding:24px 18px}
+  .plan-card .plan-price{font-size:32px}
+  .hero-actions{flex-direction:column;align-items:center}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOPBAR ─── -->
+<div class="topbar" id="topbar">
+  <div class="logo" onclick="switchLanguage('mk')">
+    <div class="logo-icon">P</div>
+    <div>
+      <div class="logo-text">PROTO<span>LAB</span></div>
+      <div class="logo-sub" id="logo-sub">ПРОТО ЛАБ СКОПЈЕ · СТЕМ ХАБ</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="mk" onclick="switchLanguage('mk')">🇲🇰 MK</button>
+      <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">🇬🇧 EN</button>
+      <button class="lang-btn" data-lang="sl" onclick="switchLanguage('sl')">🇸🇮 SL</button>
+    </div>
+    <div class="nav-links">
+      <a href="#categories" data-key="nav-categories">Категории</a>
+      <a href="#matrix" data-key="nav-matrix">CrossLab</a>
+      <a href="#projects" data-key="nav-projects">Grand Проекти</a>
+      <a href="#usp" data-key="nav-usp">Предности</a>
+      <a href="#plans" class="btn-nav" data-key="nav-join">Зачлени се</a>
+    </div>
+    <button class="burger" id="burger-btn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+  </div>
+</div>
+
+<!-- ─── SIDEBAR ─── -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <a href="#categories" onclick="closeSidebar()" data-key="nav-categories">Категории</a>
+  <a href="#matrix" onclick="closeSidebar()" data-key="nav-matrix">CrossLab Матрица</a>
+  <a href="#projects" onclick="closeSidebar()" data-key="nav-projects">Grand Проекти</a>
+  <a href="#extra" onclick="closeSidebar()" data-key="nav-extra">Дополнителни</a>
+  <a href="#usp" onclick="closeSidebar()" data-key="nav-usp">Предности</a>
+  <a href="#plans" onclick="closeSidebar()" data-key="nav-join" style="color:var(--orange);font-weight:700">Зачлени се</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="overview">
+  <div class="hero-content">
+    <div class="hero-badge" data-key="hero-badge">🚀 Најдобар STEM ХАБ во Македонија</div>
+    <!-- hero h1 — без цртичка, центриран, Roboto, потенок -->
+    <h1 style="font-family:'Roboto',sans-serif;font-weight:300;text-align:center;letter-spacing:0.5px;color:#fff;font-size:52px;line-height:1.1;margin-bottom:16px">
+      <span data-key="hero-line1" style="font-weight:300">Идејата ја имаш</span><br>
+      <span data-key="hero-line2" style="font-weight:300;color:var(--orange)">производот го создаваш</span>
+    </h1>
+    <!-- hero p — Tinos, сериф -->
+    <p style="font-family:'Tinos',serif;font-weight:400;text-align:center;max-width:620px;margin:0 auto 32px;font-size:18px;color:rgba(255,255,255,0.75);line-height:1.7" data-key="hero-desc">
+      PROTOLAB е место каде млади творци од 7 до 99 години учат преку правење — од моделарство до роботика, од хемија до 3Д печатење.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('launch').scrollIntoView({behavior:'smooth'})"><span data-key="hero-btn1">🎯 Започни го твојот проект</span></button>
+      <button class="btn-secondary" onclick="document.getElementById('plans').scrollIntoView({behavior:'smooth'})" data-key="hero-btn2">Види ги програмите →</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num"><span class="counter" data-target="4">0</span>+</span><span class="label" data-key="stat1">Главни секции</span></div>
+      <div class="hero-stat"><span class="num"><span class="counter" data-target="21">0</span></span><span class="label" data-key="stat2">CrossLab комбинации</span></div>
+      <div class="hero-stat"><span class="num"><span class="counter" data-target="6">0</span>+</span><span class="label" data-key="stat3">Grand проекти</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HYMNA + MP3 PLAYER ─── -->
+<div class="hymna-box reveal" id="hymna-section">
+  <div class="h-title" data-key="hymna-title">🎵 Химна на PROTOLAB — „Јас создавам“</div>
+  <div class="h-line" data-key="hymna-line">„Иднината е во мој длан! Од прв нацрт, до лет во план, Јас знам, јас знам...“</div>
+  <div class="hymna-player">
+    <button class="play-btn" id="playBtn" onclick="toggleAudio()">▶</button>
+    <audio id="hymnaAudio" src="himna.mp3" preload="metadata"></audio>
+    <span style="color:var(--gray-500);font-size:12px;font-family:var(--font-body)" data-key="hymna-click">📖 Кликни за целосен текст</span>
+    <span style="color:var(--gray-400);font-size:11px;font-family:var(--font-body);cursor:pointer" onclick="openHymna()" data-key="hymna-open">[отвори]</span>
+  </div>
+</div>
+
+<!-- ─── CATEGORIES ─── -->
+<section class="section" id="categories">
+  <div class="section-header reveal">
+    <h2><span data-key="cat-title">Главни категории</span></h2>
+    <p data-key="cat-desc">Четири секции кои го сочинуваат PROTOLAB — секој проект поминува низ минимум 2.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card reveal-left" style="border-left:4px solid #4A90D9">
+      <div class="cat-icon">✈️</div>
+      <div class="cat-title">Моделарство <span style="font-size:12px;color:#4A90D9;font-weight:600">MOD</span></div>
+      <div class="cat-desc" data-key="cat-mod-desc">Аеро, бродо, ракетно, градежно, возила, диорами — традиционална рачна градба</div>
+      <div class="cat-tags">
+        <span class="cat-tag" data-key="cat-mod-tag1">Аеромодели</span>
+        <span class="cat-tag" data-key="cat-mod-tag2">Бродови</span>
+        <span class="cat-tag" data-key="cat-mod-tag3">Ракети</span>
+        <span class="cat-tag" data-key="cat-mod-tag4">Диорами</span>
+      </div>
+    </div>
+    <div class="cat-card reveal" style="border-left:4px solid #FF6B2B;transition-delay:0.1s">
+      <div class="cat-icon">⚡</div>
+      <div class="cat-title">Мехатроника <span style="font-size:12px;color:#FF6B2B;font-weight:600">MET</span></div>
+      <div class="cat-desc" data-key="cat-met-desc">Електроника, Arduino, Raspberry Pi, роботика, IoT, AI — дигитална технологија</div>
+      <div class="cat-tags">
+        <span class="cat-tag" data-key="cat-met-tag1">Arduino</span>
+        <span class="cat-tag" data-key="cat-met-tag2">Роботика</span>
+        <span class="cat-tag" data-key="cat-met-tag3">IoT</span>
+        <span class="cat-tag" data-key="cat-met-tag4">Python</span>
+      </div>
+    </div>
+    <div class="cat-card reveal-left" style="border-left:4px solid #2ECC71;transition-delay:0.15s">
+      <div class="cat-icon">🧪</div>
+      <div class="cat-title">Наука и Хемија <span style="font-size:12px;color:#2ECC71;font-weight:600">SCI</span></div>
+      <div class="cat-desc" data-key="cat-sci-desc">Хемиски експерименти, полимери, физика, биологија, астрономија — DaVinci стил</div>
+      <div class="cat-tags">
+        <span class="cat-tag" data-key="cat-sci-tag1">Хемија</span>
+        <span class="cat-tag" data-key="cat-sci-tag2">Физика</span>
+        <span class="cat-tag" data-key="cat-sci-tag3">Биологија</span>
+        <span class="cat-tag" data-key="cat-sci-tag4">Астрономија</span>
+      </div>
+    </div>
+    <div class="cat-card reveal" style="border-left:4px solid #7F5FBF;transition-delay:0.2s">
+      <div class="cat-icon">🖨️</div>
+      <div class="cat-title">Дигитално производство <span style="font-size:12px;color:#7F5FBF;font-weight:600">FAB</span></div>
+      <div class="cat-desc" data-key="cat-fab-desc">3Д принтер, ЦНЦ глодалица, ласер CO2, vinyl, специјални техники — идеја → производ</div>
+      <div class="cat-tags">
+        <span class="cat-tag" data-key="cat-fab-tag1">3D Принт</span>
+        <span class="cat-tag" data-key="cat-fab-tag2">CNC</span>
+        <span class="cat-tag" data-key="cat-fab-tag3">Ласер</span>
+        <span class="cat-tag" data-key="cat-fab-tag4">Vinyl</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CROSSLAB MATRIX ─── -->
+<section class="section" id="matrix" style="background:var(--gray-50)">
+  <div class="section-header reveal">
+    <h2><span data-key="matrix-title">CrossLab Матрица</span></h2>
+    <p data-key="matrix-desc">21 комбинација помеѓу секциите — секој проект мора да помине низ минимум 2.</p>
+  </div>
+  <div class="legend reveal">
+    <div class="leg-item"><div class="leg-dot c5"></div> <span data-key="legend-5">Врвен ★★★★★</span></div>
+    <div class="leg-item"><div class="leg-dot c4"></div> <span data-key="legend-4">Силен ★★★★</span></div>
+    <div class="leg-item"><div class="leg-dot c3"></div> <span data-key="legend-3">Добар ★★★</span></div>
+    <div class="leg-item"><div class="leg-dot c2"></div> <span data-key="legend-2">Можен ★★</span></div>
+  </div>
+  <div class="matrix-wrap reveal">
+    <table class="matrix" id="matrix-table">
+      <thead><tr><th></th><th>MET</th><th>SCI</th><th>FAB</th><th>MED</th><th>ECO</th><th>BIZ</th></tr></thead>
+      <tbody id="matrix-body"></tbody>
+    </table>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-head" id="dp-head">
+      <div><div class="detail-title" id="dp-title">MOD + MET</div><div class="detail-sub" id="dp-sub">★★★★★</div></div>
+      <div class="detail-badges">
+        <span class="badge" id="dp-badge1" style="background:#1B2A4A;color:#fff;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600">MOD</span>
+        <span style="font-size:14px;color:rgba(255,255,255,.5)">×</span>
+        <span class="badge" id="dp-badge2" style="background:#4A90D9;color:#fff;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600">MET</span>
+        <button class="detail-close" onclick="document.getElementById('detail-panel').classList.remove('show')" data-key="close">✕ Затвори</button>
+      </div>
+    </div>
+    <div class="detail-body" id="dp-body"></div>
+  </div>
+
+  <!-- TRIPLE PROJECTS -->
+  <div style="margin-top:32px">
+    <div style="font-size:13px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:.8px;text-align:center;margin-bottom:16px;font-family:var(--font-body)" data-key="triple-title">Triple+ CrossLab проекти (3+ секции)</div>
+    <div class="triple-grid" id="triple-grid"></div>
+  </div>
+</section>
+
+<!-- ─── GRAND PROJECTS ─── -->
+<section class="section" id="projects">
+  <div class="section-header reveal">
+    <h2><span data-key="grand-title">Grand Проекти</span></h2>
+    <p data-key="grand-desc">Тимски CrossLab проекти каде секоја секција придонесува кон заеднички финален производ.</p>
+  </div>
+  <div class="grand-grid" id="grand-grid"></div>
+</section>
+
+<!-- ─── EXTRA CATEGORIES ─── -->
+<section class="section" id="extra" style="background:var(--gray-50)">
+  <div class="section-header reveal">
+    <h2><span data-key="extra-title">Дополнителни категории</span></h2>
+    <p data-key="extra-desc">Три категории кои ги засилуваат и комплетираат сите останати.</p>
+  </div>
+  <div class="extra-grid">
+    <div class="extra-card reveal-left" style="border-top-color:#E8A020">
+      <div class="ex-title" data-key="extra1-title">🎬 Медиуми и Дигитална продукција</div>
+      <div class="ex-desc" data-key="extra1-desc">Секој проект се документира, снима и промовира.</div>
+      <ul class="ex-items">
+        <li data-key="extra1-item1">Фотографија на проекти</li>
+        <li data-key="extra1-item2">Видео продукција (YouTube/TikTok)</li>
+        <li data-key="extra1-item3">Podcast и звучна едиција</li>
+        <li data-key="extra1-item4">Графички дизајн</li>
+        <li data-key="extra1-item5">2D анимација</li>
+        <li data-key="extra1-item6">Дигитален маркетинг</li>
+      </ul>
+    </div>
+    <div class="extra-card reveal" style="border-top-color:#27AE60;transition-delay:0.1s">
+      <div class="ex-title" data-key="extra2-title">🌱 Одржлива енергија и Животна средина</div>
+      <div class="ex-desc" data-key="extra2-desc">Зелената технологија е иднината на сите инженерски дисциплини.</div>
+      <ul class="ex-items">
+        <li data-key="extra2-item1">Соларни панели (мини системи)</li>
+        <li data-key="extra2-item2">Ветерни турбини</li>
+        <li data-key="extra2-item3">Хидропоника и aquaponics</li>
+        <li data-key="extra2-item4">Рециклирање и биоматеријали</li>
+        <li data-key="extra2-item5">Мониторинг на воздух/вода</li>
+        <li data-key="extra2-item6">Биогас и компостирање</li>
+      </ul>
+    </div>
+    <div class="extra-card reveal-right" style="border-top-color:#FF6B2B;transition-delay:0.2s">
+      <div class="ex-title" data-key="extra3-title">💼 Бизнис и Претприемништво</div>
+      <div class="ex-desc" data-key="extra3-desc">Производот е создаден — следниот чекор е да се продаде.</div>
+      <ul class="ex-items">
+        <li data-key="extra3-item1">Бизнис план за проект</li>
+        <li data-key="extra3-item2">Crowdfunding (Kickstarter)</li>
+        <li data-key="extra3-item3">Pitch презентации</li>
+        <li data-key="extra3-item4">Intellectual Property основи</li>
+        <li data-key="extra3-item5">Маркетинг на производ</li>
+        <li data-key="extra3-item6">Junior Startup програма</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── USP ─── -->
+<section class="section" id="usp">
+  <div class="section-header reveal">
+    <h2><span data-key="usp-title">USP и Бизнис предности</span></h2>
+    <p data-key="usp-desc">Што го прави PROTOLAB уникатен на пазарот.</p>
+  </div>
+  <div class="usp-grid" id="usp-grid"></div>
+</section>
+
+<!-- ─── SOCIAL PROOF ─── -->
+<section class="section social-proof" id="testimonials">
+  <div class="section-header reveal">
+    <h2><span data-key="testimonial-title">Што велат нашите творци</span></h2>
+    <p data-key="testimonial-desc">Реални приказни од деца, родители и ментори.</p>
+  </div>
+  <div class="social-grid">
+    <div class="social-card reveal-left">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <blockquote data-key="testimonial1">„Мојот син изгради свој прв робот за 3 месеци. Горд сум на неговиот напредок и ентузијазам.“</blockquote>
+      <div class="author" data-key="testimonial1-author">Ана М. <span>— родител</span></div>
+    </div>
+    <div class="social-card reveal" style="transition-delay:0.1s">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <blockquote data-key="testimonial2">„PROTOLAB ми даде можност да учам преку правење. Сега знам како функционираат сензорите и Arduino.“</blockquote>
+      <div class="author" data-key="testimonial2-author">Марко С. <span>— учесник, 14 год.</span></div>
+    </div>
+    <div class="social-card reveal-right" style="transition-delay:0.2s">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <blockquote data-key="testimonial3">„Како инженер, ретко гледам место каде децата учат толку практично. Ова е иднината на образованието.“</blockquote>
+      <div class="author" data-key="testimonial3-author">Д-р Петар Ј. <span>— ментор</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PLANS (сега на дното) ─── -->
+<section class="section" id="plans" style="background:var(--gray-50)">
+  <div class="section-header reveal">
+    <h2><span data-key="plans-title">Избери го твојот пат на творец</span></h2>
+    <p data-key="plans-desc">Без разлика дали си почетник или веќе градиш — имаме програма за тебе.</p>
+  </div>
+  <div class="plans-grid" id="plans-grid">
+    <!-- EXPLORER -->
+    <div class="plan-card reveal-left">
+      <div class="plan-name" data-key="plan1-name">🚀 Explorer</div>
+      <div class="plan-desc" data-key="plan1-desc">За љубопитните деца кои сакаат да учат преку игра</div>
+      <div class="plan-price">1.500 <span>ден</span></div>
+      <div class="plan-period" data-key="plan1-period">месечно · 1 час неделно</div>
+      <button class="plan-btn" onclick="toast('Explorer програма — пријавете се!')" data-key="plan1-btn">Зачлени се</button>
+      <ul class="plan-features">
+        <li data-key="plan1-f1">7–12 години</li>
+        <li data-key="plan1-f2">Моделарство — картон, балза, хартија</li>
+        <li data-key="plan1-f3">Електроника — LED на breadboard</li>
+        <li data-key="plan1-f4">Scratch програмирање</li>
+        <li data-key="plan1-f5">Прв физички производ</li>
+        <li data-key="plan1-f6">Воден од ментор</li>
+      </ul>
+    </div>
+
+    <!-- BUILDER — POPULAR -->
+    <div class="plan-card popular reveal" style="transition-delay:0.1s">
+      <div class="plan-name" data-key="plan2-name">🔧 Builder</div>
+      <div class="plan-desc" data-key="plan2-desc">За тинејџери кои сакаат да градат во тим и да создаваат</div>
+      <div class="plan-price">2.800 <span>ден</span></div>
+      <div class="plan-period" data-key="plan2-period">месечно · 2 часа неделно</div>
+      <button class="plan-btn" onclick="toast('Builder програма — најпопуларна!')" data-key="plan2-btn">Зачлени се</button>
+      <ul class="plan-features">
+        <li data-key="plan2-f1">13–18 години</li>
+        <li data-key="plan2-f2">Аеро, бродо, ракетно моделарство</li>
+        <li data-key="plan2-f3">Arduino, сензори, мотори</li>
+        <li data-key="plan2-f4">3Д принт и ласер CO2</li>
+        <li data-key="plan2-f5">CrossLab тимски проект</li>
+        <li data-key="plan2-f6">Grand Project презентација</li>
+      </ul>
+    </div>
+
+    <!-- MAKER -->
+    <div class="plan-card reveal-right" style="transition-delay:0.2s">
+      <div class="plan-name" data-key="plan3-name">⚡ Maker</div>
+      <div class="plan-desc" data-key="plan3-desc">За возрасни ентузијасти и студенти со сопствени идеи</div>
+      <div class="plan-price">4.200 <span>ден</span></div>
+      <div class="plan-period" data-key="plan3-period">месечно · флексибилно време</div>
+      <button class="plan-btn" onclick="toast('Maker програма — слободно создавање!')" data-key="plan3-btn">Зачлени се</button>
+      <ul class="plan-features">
+        <li data-key="plan3-f1">19+ години</li>
+        <li data-key="plan3-f2">Самостојни проекти</li>
+        <li data-key="plan3-f3">Напредна роботика и AI</li>
+        <li data-key="plan3-f4">Fab Services — CNC, 3Д, ласер</li>
+        <li data-key="plan3-f5">Менторска поддршка</li>
+        <li data-key="plan3-f6">Стартап поддршка</li>
+      </ul>
+    </div>
+
+    <!-- FAB LAB -->
+    <div class="plan-card reveal" style="transition-delay:0.3s">
+      <div class="plan-name" data-key="plan4-name">🏭 Fab Lab</div>
+      <div class="plan-desc" data-key="plan4-desc">За компании, училишта и организации</div>
+      <div class="plan-price">по <span data-key="plan4-price">договор</span></div>
+      <div class="plan-period" data-key="plan4-period">тимски пакети · персонализирано</div>
+      <button class="plan-btn" onclick="toast('Контактирајте не за Fab Lab!')" data-key="plan4-btn">Контакт</button>
+      <ul class="plan-features">
+        <li data-key="plan4-f1">Тимбилдинг и работилници</li>
+        <li data-key="plan4-f2">Пристап до цела опрема</li>
+        <li data-key="plan4-f3">Школски посети</li>
+        <li data-key="plan4-f4">Корпоративни настани</li>
+        <li data-key="plan4-f5">Прилагодена програма</li>
+        <li data-key="plan4-f6">Сертификат за учество</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LAUNCH ─── -->
+<section class="launch-section" id="launch">
+  <h2 class="reveal"><span data-key="launch-title">🚀 Започни го твојот творечки пат</span></h2>
+  <p class="reveal" style="transition-delay:0.1s" data-key="launch-desc">Пријави се за бесплатен пробен час и доживеј го PROTOLAB.</p>
+  <form class="launch-form reveal" style="transition-delay:0.2s" onsubmit="event.preventDefault(); toast('Успешно се пријавивте! 🎉')">
+    <input type="email" placeholder="Вашата е-пошта" required data-key="launch-placeholder">
+    <button type="submit"><span data-key="launch-btn">🎯 Испрати</span></button>
+  </form>
+  <div class="launch-note reveal" style="transition-delay:0.3s" data-key="launch-note">Бесплатен пробен час · Без обврска · Сите материјали се обезбедени</div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <div style="margin-bottom:16px">
+    <a href="#" data-key="footer-about">За нас</a>
+    <a href="#plans" data-key="footer-programs">Програми</a>
+    <a href="#" data-key="footer-contact">Контакт</a>
+    <a href="#" data-key="footer-partners">Партнери</a>
+  </div>
+  <div data-key="footer-copy">© 2026 PROTOLAB — ПРОТО ЛАБ СКОПЈЕ · СТЕМ ХАБ. Сите права се задржани.</div>
+  <div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.2)" data-key="footer-motto">„Место каде завршуваш со производ во рака, а не само со диплома во фиока.“</div>
+</footer>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"></div>
+
+<!-- ─── MODAL: HYMNA ─── -->
+<div class="modal-overlay" id="hymna-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHymna()">✕</button>
+    <h2 data-key="modal-title">🎵 Химна на PROTOLAB</h2>
+    <div class="sub" data-key="modal-sub">„Јас создавам“</div>
+    <div class="verse"><div class="label" data-key="verse1-label">Строфа 1 · детски глас</div><div class="text" data-key="verse1-text">Кога бев мал, се прашував,<br>каков ли свет ме очекува?<br>Дали ќе бидам само набљудувач,<br>или на својот пат одлучувач?</div></div>
+    <div class="refren"><div class="text" data-key="refren-text">Јас знам, јас знам,<br>Иднината е во мој длан!<br>Од прв нацрт, до лет во план,<br>Јас знам, јас знам...</div></div>
+    <div class="verse"><div class="label" data-key="verse2-label">Строфа 2 · тинејџерски глас</div><div class="text" data-key="verse2-text">Сега сум тука, со алат во рака,<br>работам вредно, не чекам на среќа.<br>Од нула до проект, со прецизен ум,<br>го градам својот сопствен друм.</div></div>
+    <div class="refren"><div class="text" data-key="refren-text2">Јас знам, јас знам,<br>Иднината е во мој длан!<br>Од прв нацрт, до лет во план,<br>Јас знам, јас знам...</div></div>
+    <div class="verse"><div class="label" data-key="verse3-label">Строфа 3 · младински глас</div><div class="text" data-key="verse3-text">Аеропланот лета, бродот веќе плови,<br>кодот се пишува, успеси нови.<br>Нема случајност, сè е мој труд,<br>во овој свет, јас сум Творецот, ова е мој суд.</div></div>
+    <div class="finale" data-key="finale-text">Што ќе биде? Јас ќе кажам.<br>Што ќе биде? Јас ќе изградам.<br>Јас веќе знам, Јас веќе знам...</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+
+const CROSSES = {
+'MOD-MET':{stars:5,label:'Паметен модел',projects:[
+  {title:'Паметен авион',color:'#1B2A4A',items:['Arduino телеметрија — висина, temp, GPS','LED крила кои трепкаат (програмирани)','Пренос на податоци во реално време','RC управување + автопилот']},
+  {title:'Автономен брод',color:'#4A90D9',items:['Брод со компас + GPS автопилот','Избегнување пречки (ултразвук)','Соларно напојување','Логирање на рутата']},
+  {title:'Ракета со телеметрија',color:'#E74C3C',items:['Сензори: висина, temp, брзина','Радио пренос на податоци','Arduino флит логер','Парашут — автоматско активирање']},
+]},
+'MOD-SCI':{stars:4,label:'Материјали+тест',projects:[
+  {title:'Аеродинамика лаб',color:'#1B2A4A',items:['DIY тест тунел за ветер','Мерење на подигање на крилата','Споредба на различни форми','Бернулиев принцип — демо']},
+  {title:'Мост — тест јачина',color:'#8B4513',items:['Правење мост (балза, картон, MDF)','Хемиска обработка за јачина','Мерење на носивост до пробив','Споредба на материјали']},
+]},
+'MOD-FAB':{stars:5,label:'Дигитал + рака',projects:[
+  {title:'Хибридни модели',color:'#7F5FBF',items:['Традиционален труп + 3Д принт кабина','Балза + ласер сечена рамка','Ракетна нос — 3Д принт + гипс','ЦНЦ рамка за брод']},
+  {title:'Диорама 2.0',color:'#1B2A4A',items:['ЦНЦ терен + рачни фигури','3Д принт зградини + бои','Ласер гравирани детали','Vinyl налепници за возила']},
+]},
+'MOD-MED':{stars:3,label:'Документација',projects:[
+  {title:'Build Diary серија',color:'#E8A020',items:['Time-lapse на секоја фаза','YouTube Build серија','Instagram process content','Техничка документација']},
+]},
+'MOD-ECO':{stars:3,label:'Зелена градба',projects:[
+  {title:'Соларен авион',color:'#27AE60',items:['Соларни ќелии на крилата','Батерија — полнење во лет','Минимална тежина конструкција']},
+  {title:'Еко материјали',color:'#2ECC71',items:['Биопластика наместо стиропор','Рециклиран картон за рамки','Компостабилни лепила']},
+]},
+'MOD-BIZ':{stars:2,label:'Продажба',projects:[
+  {title:'Пазар на модели',color:'#FF6B2B',items:['Продажба на финални модели','Нарачки по барање','Цена + материјал + труд']},
+]},
+'MET-SCI':{stars:4,label:'Научни мерења',projects:[
+  {title:'Хемиски сензори',color:'#4A90D9',items:['Arduino + pH сензор','Мерење на CO2 во воздух','Детекција на загадување','Анализа на вода — DIY']},
+  {title:'Спектроскоп',color:'#2ECC71',items:['Arduino + светлосен сензор','Анализа на различни светлини','Идентификација на хем. елементи']},
+]},
+'MET-FAB':{stars:5,label:'Фабрика во мало',projects:[
+  {title:'Роботска рака',color:'#7F5FBF',items:['3Д принтирани делови','Arduino управување','Сервомотори + ЦНЦ шасија','Комплетен DIY робот']},
+  {title:'ПЦБ производство',color:'#1B2A4A',items:['ЦНЦ фрезирање на ПЦБ','Сопствена плоча за уред','Ласер сечено куќиште']},
+]},
+'MET-MED':{stars:4,label:'Паметен студио',projects:[
+  {title:'Arduino камера систем',color:'#E8A020',items:['Raspberry Pi камера','Автоматско следење (tracking)','Тајм-лапс контролер','Live stream на проекти']},
+  {title:'LED музика',color:'#4A90D9',items:['LED визуализација на музика','Arduino синтисајзер','MIDI контролер DIY']},
+]},
+'MET-ECO':{stars:5,label:'Паметна енергија',projects:[
+  {title:'Соларен монитор',color:'#27AE60',items:['Arduino мери производство','WiFi dashboard на телефон','Батерија менаџмент систем']},
+  {title:'Паметна градина',color:'#2ECC71',items:['Автоматско наводнување','IoT управување — телефон','Хидропоника + Arduino']},
+  {title:'Ветерна турбина',color:'#4A90D9',items:['Генератор + мерење струја','Контролер за оптимален агол']},
+]},
+'MET-BIZ':{stars:4,label:'Стартап',projects:[
+  {title:'IoT производ',color:'#FF6B2B',items:['Паметна сензорска кутија','Pitch пред инвеститори','Crowdfunding кампања']},
+]},
+'SCI-FAB':{stars:4,label:'Научна фабрика',projects:[
+  {title:'Лаб прибор DIY',color:'#7F5FBF',items:['3Д принт лаб поставки','ЦНЦ лаб маса','Ласер сечени молдови']},
+  {title:'Смола + UV',color:'#2ECC71',items:['Силиконски калап (FAB)','Флуоресцентна смола (SCI)','Кристали во смола']},
+]},
+'SCI-MED':{stars:3,label:'Научен content',projects:[
+  {title:'Научни видеа',color:'#E8A020',items:['Демо на хемиски реакции','Slow-motion снимање','Образовни Instagram reels']},
+]},
+'SCI-ECO':{stars:5,label:'Зелена наука',projects:[
+  {title:'Анализа на вода',color:'#27AE60',items:['pH, нитрати, кислород','DIY пречистување — филтер','Извештај за заедницата']},
+  {title:'Биоматеријали',color:'#145A32',items:['Биопластика наместо синтет.','Мицелиум — природна пена','Природни бои и пигменти']},
+]},
+'SCI-BIZ':{stars:3,label:'Научен производ',projects:[
+  {title:'Природна козметика',color:'#FF6B2B',items:['Сапун, крема, шампон','Бренд и пакување (FAB)','Продажба на саем']},
+]},
+'FAB-MED':{stars:4,label:'Креативна продукција',projects:[
+  {title:'Бренд материјали',color:'#E8A020',items:['Лого на ласер (акрилик)','Vinyl налепници и стикери','3Д принт трофеи и награди']},
+]},
+'FAB-ECO':{stars:3,label:'Еко производство',projects:[
+  {title:'Еко пакување',color:'#27AE60',items:['Биоразградливо пакување','Минимален waste при ЦНЦ','Оптимизирање на сечење']},
+]},
+'FAB-BIZ':{stars:5,label:'Производство=Бизнис',projects:[
+  {title:'Customization услуга',color:'#FF6B2B',items:['Нарачки per request','Гравирање подароци','Персонализирани производи']},
+  {title:'Прототип за стартап',color:'#7F5FBF',items:['Идеја → CAM → производство','Серија 10–100 парчиња','Pitch со физички прототип']},
+]},
+'MED-ECO':{stars:3,label:'Зелена порака',projects:[
+  {title:'Еко кампања',color:'#27AE60',items:['Документарец за природа','Социјален маркетинг','Podcast — еко теми']},
+]},
+'MED-BIZ':{stars:4,label:'Маркетинг',projects:[
+  {title:'PROTOLAB медии',color:'#FF6B2B',items:['YouTube канал на академијата','Промо видео за проекти','Портфолио видео за ученици']},
+]},
+'ECO-BIZ':{stars:4,label:'Зелен бизнис',projects:[
+  {title:'Еко стартап',color:'#27AE60',items:['Зелен производ + бренд','Грантови за еко бизниси','Circular economy модел']},
+]},
+};
+
+const ROWS = [
+  {code:'MOD',name:'Моделарство',color:'#1B2A4A'},
+  {code:'MET',name:'Мехатроника',color:'#4A90D9'},
+  {code:'SCI',name:'Хемија/Наука',color:'#2ECC71'},
+  {code:'FAB',name:'Дигит. произв.',color:'#7F5FBF'},
+  {code:'MED',name:'Медиуми',color:'#E8A020'},
+  {code:'ECO',name:'Животна сред.',color:'#27AE60'},
+];
+const COLS = ['MET','SCI','FAB','MED','ECO','BIZ'];
+const COL_COLORS = {MET:'#4A90D9',SCI:'#2ECC71',FAB:'#7F5FBF',MED:'#E8A020',ECO:'#27AE60',BIZ:'#FF6B2B'};
+const COL_NAMES  = {MET:'Мехатроника',SCI:'Хемија',FAB:'Дигит. произв.',MED:'Медиуми',ECO:'Животна сред.',BIZ:'Бизнис'};
+
+const TRIPLES = [
+  {title:'Паметен авион (спектакл)',tags:['MOD','MET','SCI','FAB','MED'],desc:'MOD гради авионот → FAB печати делови → MET поставува сензори + LED → SCI анализира телеметрија → MED документира и снима лет.'},
+  {title:'Паметен светилник',tags:['MOD','MET','SCI','FAB','BIZ'],desc:'MOD гради макета → SCI прави UV океан → MET инсталира Arduino светло → FAB печати куќиште → BIZ прави pitch.'},
+  {title:'Паметна еко станица',tags:['MET','SCI','ECO','FAB','MED'],desc:'SCI мери вода/воздух → MET поврзува сензори → FAB прави куќиште → ECO анализира → MED документира.'},
+  {title:'CanSat — Мини сателит',tags:['MOD','MET','SCI','FAB','BIZ'],desc:'MOD гради ракета → FAB печати CanSat → MET поставува сензори → SCI анализира атмосфера → BIZ пријавува на натпревар.'},
+  {title:'Мини фабрика (Junior Startup)',tags:['FAB','MET','BIZ','MED','ECO'],desc:'FAB произведува → MET автоматизира → BIZ продава → MED рекламира → ECO еко материјали.'},
+  {title:'Еко истражување + медиуми',tags:['SCI','MET','ECO','FAB','MED'],desc:'SCI мери квалитет на вода → MET GPS картирање → FAB мобилна лаб → ECO извештај → MED документарец.'},
+];
+
+const GRAND_PROJECTS = [
+  {title:'🛩️ Паметен авион',desc:'MOD гради RC авион → FAB печати кабина → MET поставува LED и сензори → SCI мери податоци → MED снима лет',tags:['MOD','FAB','MET','SCI','MED']},
+  {title:'💡 Паметен светилник',desc:'MOD гради макета → SCI прави UV океанска вода → MET инсталира Arduino светло → FAB печати куќиште → BIZ прави pitch',tags:['MOD','SCI','MET','FAB','BIZ']},
+  {title:'🌡️ Паметна метеостаница',desc:'FAB сече куќиште → MET поставува сензори → SCI калибрира → ECO анализира воздух → MED прави инфографик',tags:['FAB','MET','SCI','ECO','MED']},
+  {title:'🏭 Мини фабрика',desc:'FAB произведува производ → MET автоматизира → BIZ продава → MED рекламира → ECO користи еко материјали',tags:['FAB','MET','BIZ','MED','ECO']},
+  {title:'🌊 Еко истражување',desc:'SCI анализира вода → MET прави GPS картирање → FAB куќиште → ECO извештај → MED документарец',tags:['SCI','MET','FAB','ECO','MED']},
+  {title:'🛰️ CanSat — Мини сателит',desc:'MOD гради ракета → FAB печати CanSat → MET поставува сензори → SCI анализира → BIZ пријавува на натпревар',tags:['MOD','FAB','MET','SCI','BIZ']},
+];
+
+const USP_DATA = [
+  {icon:'💡',title:'Идеја → Производ',desc:'Децата не учат само теорија. Секој излегува со физички производ — портфолио за факултет и кариера.'},
+  {icon:'🤝',title:'Меки вештини',desc:'Програмерот мора да зборува со моделерот. Тимска работа меѓу специјалности — вистинскиот свет.'},
+  {icon:'💰',title:'Три извори на приход',desc:'Членарини + Работилници/Настани + Fab Services. Машините работат и кога нема сесии.'},
+  {icon:'📁',title:'Портфолио систем',desc:'Секое дете излегува со документирани физички докази. Ниту еден конкурент не го прави ова систематски.'},
+  {icon:'🌍',title:'Франшизен потенцијал',desc:'CrossLab метод е документиран и репликабилен. Скопје → Балкан → Меѓународно.'},
+  {icon:'📢',title:'Медиумска видливост',desc:'Јавните Grand Project презентации се бесплатна реклама. Секој проект е приказна за медиумите.'},
+];
+
+// ═══════════════════════════════════════════
+// TRANSLATIONS — македонски, англиски, словенечки
+// ═══════════════════════════════════════════
+
+const translations = {
+  mk: {
+    'logo-sub':'ПРОТО ЛАБ СКОПЈЕ · СТЕМ ХАБ',
+    'nav-categories':'Категории',
+    'nav-matrix':'CrossLab',
+    'nav-projects':'Grand Проекти',
+    'nav-usp':'Предности',
+    'nav-join':'Зачлени се',
+    'nav-extra':'Дополнителни',
+    'hero-badge':'🚀 Најдобар STEM ХАБ во Македонија',
+    'hero-line1':'Идејата ја имаш',
+    'hero-line2':'производот го создаваш',
+    'hero-desc':'PROTOLAB е место каде млади творци од 7 до 99 години учат преку правење — од моделарство до роботика, од хемија до 3Д печатење.',
+    'hero-btn1':'🎯 Започни го твојот проект',
+    'hero-btn2':'Види ги програмите →',
+    'stat1':'Главни секции',
+    'stat2':'CrossLab комбинации',
+    'stat3':'Grand проекти',
+    'hymna-title':'🎵 Химна на PROTOLAB — „Јас создавам“',
+    'hymna-line':'„Иднината е во мој длан! Од прв нацрт, до лет во план, Јас знам, јас знам...“',
+    'hymna-click':'📖 Кликни за целосен текст',
+    'hymna-open':'[отвори]',
+    'cat-title':'Главни категории',
+    'cat-desc':'Четири секции кои го сочинуваат PROTOLAB — секој проект поминува низ минимум 2.',
+    'cat-mod-desc':'Аеро, бродо, ракетно, градежно, возила, диорами — традиционална рачна градба',
+    'cat-mod-tag1':'Аеромодели',
+    'cat-mod-tag2':'Бродови',
+    'cat-mod-tag3':'Ракети',
+    'cat-mod-tag4':'Диорами',
+    'cat-met-desc':'Електроника, Arduino, Raspberry Pi, роботика, IoT, AI — дигитална технологија',
+    'cat-met-tag1':'Arduino',
+    'cat-met-tag2':'Роботика',
+    'cat-met-tag3':'IoT',
+    'cat-met-tag4':'Python',
+    'cat-sci-desc':'Хемиски експерименти, полимери, физика, биологија, астрономија — DaVinci стил',
+    'cat-sci-tag1':'Хемија',
+    'cat-sci-tag2':'Физика',
+    'cat-sci-tag3':'Биологија',
+    'cat-sci-tag4':'Астрономија',
+    'cat-fab-desc':'3Д принтер, ЦНЦ глодалица, ласер CO2, vinyl, специјални техники — идеја → производ',
+    'cat-fab-tag1':'3D Принт',
+    'cat-fab-tag2':'CNC',
+    'cat-fab-tag3':'Ласер',
+    'cat-fab-tag4':'Vinyl',
+    'matrix-title':'CrossLab Матрица',
+    'matrix-desc':'21 комбинација помеѓу секциите — секој проект мора да помине низ минимум 2.',
+    'legend-5':'Врвен ★★★★★',
+    'legend-4':'Силен ★★★★',
+    'legend-3':'Добар ★★★',
+    'legend-2':'Можен ★★',
+    'close':'✕ Затвори',
+    'triple-title':'Triple+ CrossLab проекти (3+ секции)',
+    'grand-title':'Grand Проекти',
+    'grand-desc':'Тимски CrossLab проекти каде секоја секција придонесува кон заеднички финален производ.',
+    'extra-title':'Дополнителни категории',
+    'extra-desc':'Три категории кои ги засилуваат и комплетираат сите останати.',
+    'extra1-title':'🎬 Медиуми и Дигитална продукција',
+    'extra1-desc':'Секој проект се документира, снима и промовира.',
+    'extra1-item1':'Фотографија на проекти',
+    'extra1-item2':'Видео продукција (YouTube/TikTok)',
+    'extra1-item3':'Podcast и звучна едиција',
+    'extra1-item4':'Графички дизајн',
+    'extra1-item5':'2D анимација',
+    'extra1-item6':'Дигитален маркетинг',
+    'extra2-title':'🌱 Одржлива енергија и Животна средина',
+    'extra2-desc':'Зелената технологија е иднината на сите инженерски дисциплини.',
+    'extra2-item1':'Соларни панели (мини системи)',
+    'extra2-item2':'Ветерни турбини',
+    'extra2-item3':'Хидропоника и aquaponics',
+    'extra2-item4':'Рециклирање и биоматеријали',
+    'extra2-item5':'Мониторинг на воздух/вода',
+    'extra2-item6':'Биогас и компостирање',
+    'extra3-title':'💼 Бизнис и Претприемништво',
+    'extra3-desc':'Производот е создаден — следниот чекор е да се продаде.',
+    'extra3-item1':'Бизнис план за проект',
+    'extra3-item2':'Crowdfunding (Kickstarter)',
+    'extra3-item3':'Pitch презентации',
+    'extra3-item4':'Intellectual Property основи',
+    'extra3-item5':'Маркетинг на производ',
+    'extra3-item6':'Junior Startup програма',
+    'usp-title':'USP и Бизнис предности',
+    'usp-desc':'Што го прави PROTOLAB уникатен на пазарот.',
+    'testimonial-title':'Што велат нашите творци',
+    'testimonial-desc':'Реални приказни од деца, родители и ментори.',
+    'testimonial1':'„Мојот син изгради свој прв робот за 3 месеци. Горд сум на неговиот напредок и ентузијазам.“',
+    'testimonial1-author':'Ана М. — родител',
+    'testimonial2':'„PROTOLAB ми даде можност да учам преку правење. Сега знам како функционираат сензорите и Arduino.“',
+    'testimonial2-author':'Марко С. — учесник, 14 год.',
+    'testimonial3':'„Како инженер, ретко гледам место каде децата учат толку практично. Ова е иднината на образованието.“',
+    'testimonial3-author':'Д-р Петар Ј. — ментор',
+    'plans-title':'Избери го твојот пат на творец',
+    'plans-desc':'Без разлика дали си почетник или веќе градиш — имаме програма за тебе.',
+    'plan1-name':'🚀 Explorer',
+    'plan1-desc':'За љубопитните деца кои сакаат да учат преку игра',
+    'plan1-period':'месечно · 1 час неделно',
+    'plan1-btn':'Зачлени се',
+    'plan1-f1':'7–12 години',
+    'plan1-f2':'Моделарство — картон, балза, хартија',
+    'plan1-f3':'Електроника — LED на breadboard',
+    'plan1-f4':'Scratch програмирање',
+    'plan1-f5':'Прв физички производ',
+    'plan1-f6':'Воден од ментор',
+    'plan2-name':'🔧 Builder',
+    'plan2-desc':'За тинејџери кои сакаат да градат во тим и да создаваат',
+    'plan2-period':'месечно · 2 часа неделно',
+    'plan2-btn':'Зачлени се',
+    'plan2-f1':'13–18 години',
+    'plan2-f2':'Аеро, бродо, ракетно моделарство',
+    'plan2-f3':'Arduino, сензори, мотори',
+    'plan2-f4':'3Д принт и ласер CO2',
+    'plan2-f5':'CrossLab тимски проект',
+    'plan2-f6':'Grand Project презентација',
+    'plan3-name':'⚡ Maker',
+    'plan3-desc':'За возрасни ентузијасти и студенти со сопствени идеи',
+    'plan3-period':'месечно · флексибилно време',
+    'plan3-btn':'Зачлени се',
+    'plan3-f1':'19+ години',
+    'plan3-f2':'Самостојни проекти',
+    'plan3-f3':'Напредна роботика и AI',
+    'plan3-f4':'Fab Services — CNC, 3Д, ласер',
+    'plan3-f5':'Менторска поддршка',
+    'plan3-f6':'Стартап поддршка',
+    'plan4-name':'🏭 Fab Lab',
+    'plan4-desc':'За компании, училишта и организации',
+    'plan4-price':'договор',
+    'plan4-period':'тимски пакети · персонализирано',
+    'plan4-btn':'Контакт',
+    'plan4-f1':'Тимбилдинг и работилници',
+    'plan4-f2':'Пристап до цела опрема',
+    'plan4-f3':'Школски посети',
+    'plan4-f4':'Корпоративни настани',
+    'plan4-f5':'Прилагодена програма',
+    'plan4-f6':'Сертификат за учество',
+    'launch-title':'🚀 Започни го твојот творечки пат',
+    'launch-desc':'Пријави се за бесплатен пробен час и доживеј го PROTOLAB.',
+    'launch-placeholder':'Вашата е-пошта',
+    'launch-btn':'🎯 Испрати',
+    'launch-note':'Бесплатен пробен час · Без обврска · Сите материјали се обезбедени',
+    'footer-about':'За нас',
+    'footer-programs':'Програми',
+    'footer-contact':'Контакт',
+    'footer-partners':'Партнери',
+    'footer-copy':'© 2026 PROTOLAB — ПРОТО ЛАБ СКОПЈЕ · СТЕМ ХАБ. Сите права се задржани.',
+    'footer-motto':'„Место каде завршуваш со производ во рака, а не само со диплома во фиока.“',
+    'modal-title':'🎵 Химна на PROTOLAB',
+    'modal-sub':'„Јас создавам“',
+    'verse1-label':'Строфа 1 · детски глас',
+    'verse1-text':'Кога бев мал, се прашував,<br>каков ли свет ме очекува?<br>Дали ќе бидам само набљудувач,<br>или на својот пат одлучувач?',
+    'refren-text':'Јас знам, јас знам,<br>Иднината е во мој длан!<br>Од прв нацрт, до лет во план,<br>Јас знам, јас знам...',
+    'verse2-label':'Строфа 2 · тинејџерски глас',
+    'verse2-text':'Сега сум тука, со алат во рака,<br>работам вредно, не чекам на среќа.<br>Од нула до проект, со прецизен ум,<br>го градам својот сопствен друм.',
+    'refren-text2':'Јас знам, јас знам,<br>Иднината е во мој длан!<br>Од прв нацрт, до лет во план,<br>Јас знам, јас знам...',
+    'verse3-label':'Строфа 3 · младински глас',
+    'verse3-text':'Аеропланот лета, бродот веќе плови,<br>кодот се пишува, успеси нови.<br>Нема случајност, сè е мој труд,<br>во овој свет, јас сум Творецот, ова е мој суд.',
+    'finale-text':'Што ќе биде? Јас ќе кажам.<br>Што ќе биде? Јас ќе изградам.<br>Јас веќе знам, Јас веќе знам...'
+  },
+  en: {
+    'logo-sub':'PROTO LAB SKOPJE · STEM HUB',
+    'nav-categories':'Categories',
+    'nav-matrix':'CrossLab',
+    'nav-projects':'Grand Projects',
+    'nav-usp':'Advantages',
+    'nav-join':'Join Now',
+    'nav-extra':'Additional',
+    'hero-badge':'🚀 Best STEM HUB in Macedonia',
+    'hero-line1':'You have the idea',
+    'hero-line2':'you create the product',
+    'hero-desc':'PROTOLAB is a place where young creators from 7 to 99 learn by doing — from modeling to robotics, from chemistry to 3D printing.',
+    'hero-btn1':'🎯 Start Your Project',
+    'hero-btn2':'View Programs →',
+    'stat1':'Main Sections',
+    'stat2':'CrossLab Combinations',
+    'stat3':'Grand Projects',
+    'hymna-title':'🎵 PROTOLAB Anthem — "I Create"',
+    'hymna-line':'"The future is in my hand! From first draft to flight plan, I know, I know..."',
+    'hymna-click':'📖 Click for full text',
+    'hymna-open':'[open]',
+    'cat-title':'Main Categories',
+    'cat-desc':'Four sections that make up PROTOLAB — every project must go through at least 2.',
+    'cat-mod-desc':'Aero, ship, rocket, construction, vehicles, dioramas — traditional handcraft',
+    'cat-mod-tag1':'Aircraft',
+    'cat-mod-tag2':'Ships',
+    'cat-mod-tag3':'Rockets',
+    'cat-mod-tag4':'Dioramas',
+    'cat-met-desc':'Electronics, Arduino, Raspberry Pi, robotics, IoT, AI — digital technology',
+    'cat-met-tag1':'Arduino',
+    'cat-met-tag2':'Robotics',
+    'cat-met-tag3':'IoT',
+    'cat-met-tag4':'Python',
+    'cat-sci-desc':'Chemistry experiments, polymers, physics, biology, astronomy — DaVinci style',
+    'cat-sci-tag1':'Chemistry',
+    'cat-sci-tag2':'Physics',
+    'cat-sci-tag3':'Biology',
+    'cat-sci-tag4':'Astronomy',
+    'cat-fab-desc':'3D printer, CNC router, CO2 laser, vinyl, special techniques — idea → product',
+    'cat-fab-tag1':'3D Print',
+    'cat-fab-tag2':'CNC',
+    'cat-fab-tag3':'Laser',
+    'cat-fab-tag4':'Vinyl',
+    'matrix-title':'CrossLab Matrix',
+    'matrix-desc':'21 combinations between sections — every project must pass through at least 2.',
+    'legend-5':'Top ★★★★★',
+    'legend-4':'Strong ★★★★',
+    'legend-3':'Good ★★★',
+    'legend-2':'Possible ★★',
+    'close':'✕ Close',
+    'triple-title':'Triple+ CrossLab Projects (3+ sections)',
+    'grand-title':'Grand Projects',
+    'grand-desc':'Team CrossLab projects where each section contributes to a final product, presented publicly.',
+    'extra-title':'Additional Categories',
+    'extra-desc':'Three categories that enhance and complete all the others.',
+    'extra1-title':'🎬 Media & Digital Production',
+    'extra1-desc':'Every project is documented, filmed and promoted.',
+    'extra1-item1':'Project photography',
+    'extra1-item2':'Video production (YouTube/TikTok)',
+    'extra1-item3':'Podcast and audio editing',
+    'extra1-item4':'Graphic design',
+    'extra1-item5':'2D animation',
+    'extra1-item6':'Digital marketing',
+    'extra2-title':'🌱 Sustainable Energy & Environment',
+    'extra2-desc':'Green technology is the future of all engineering disciplines.',
+    'extra2-item1':'Solar panels (mini systems)',
+    'extra2-item2':'Wind turbines',
+    'extra2-item3':'Hydroponics and aquaponics',
+    'extra2-item4':'Recycling and biomaterials',
+    'extra2-item5':'Air/water monitoring',
+    'extra2-item6':'Biogas and composting',
+    'extra3-title':'💼 Business & Entrepreneurship',
+    'extra3-desc':'The product is created — the next step is to sell it.',
+    'extra3-item1':'Business plan for project',
+    'extra3-item2':'Crowdfunding (Kickstarter)',
+    'extra3-item3':'Pitch presentations',
+    'extra3-item4':'Intellectual Property basics',
+    'extra3-item5':'Product marketing',
+    'extra3-item6':'Junior Startup program',
+    'usp-title':'USP & Business Advantages',
+    'usp-desc':'What makes PROTOLAB unique on the market.',
+    'testimonial-title':'What our creators say',
+    'testimonial-desc':'Real stories from children, parents and mentors.',
+    'testimonial1':'"My son built his first robot in 3 months. I am proud of his progress and enthusiasm."',
+    'testimonial1-author':'Ana M. — parent',
+    'testimonial2':'"PROTOLAB gave me the opportunity to learn by doing. Now I know how sensors and Arduino work."',
+    'testimonial2-author':'Marko S. — participant, 14',
+    'testimonial3':'"As an engineer, I rarely see a place where children learn so practically. This is the future of education."',
+    'testimonial3-author':'Dr. Petar J. — mentor',
+    'plans-title':'Choose Your Creator Path',
+    'plans-desc':'Whether you are a beginner or already building — we have a program for you.',
+    'plan1-name':'🚀 Explorer',
+    'plan1-desc':'For curious children who want to learn through play',
+    'plan1-period':'monthly · 1 hour per week',
+    'plan1-btn':'Join Now',
+    'plan1-f1':'7–12 years',
+    'plan1-f2':'Modeling — cardboard, balsa, paper',
+    'plan1-f3':'Electronics — LED on breadboard',
+    'plan1-f4':'Scratch programming',
+    'plan1-f5':'First physical product',
+    'plan1-f6':'Guided by mentor',
+    'plan2-name':'🔧 Builder',
+    'plan2-desc':'For teenagers who want to build in teams and create',
+    'plan2-period':'monthly · 2 hours per week',
+    'plan2-btn':'Join Now',
+    'plan2-f1':'13–18 years',
+    'plan2-f2':'Aero, ship, rocket modeling',
+    'plan2-f3':'Arduino, sensors, motors',
+    'plan2-f4':'3D print and CO2 laser',
+    'plan2-f5':'CrossLab team project',
+    'plan2-f6':'Grand Project presentation',
+    'plan3-name':'⚡ Maker',
+    'plan3-desc':'For adult enthusiasts and students with their own ideas',
+    'plan3-period':'monthly · flexible time',
+    'plan3-btn':'Join Now',
+    'plan3-f1':'19+ years',
+    'plan3-f2':'Independent projects',
+    'plan3-f3':'Advanced robotics and AI',
+    'plan3-f4':'Fab Services — CNC, 3D, laser',
+    'plan3-f5':'Mentor support',
+    'plan3-f6':'Startup support',
+    'plan4-name':'🏭 Fab Lab',
+    'plan4-desc':'For companies, schools and organizations',
+    'plan4-price':'contract',
+    'plan4-period':'team packages · customized',
+    'plan4-btn':'Contact',
+    'plan4-f1':'Team building and workshops',
+    'plan4-f2':'Access to all equipment',
+    'plan4-f3':'School visits',
+    'plan4-f4':'Corporate events',
+    'plan4-f5':'Custom program',
+    'plan4-f6':'Certificate of participation',
+    'launch-title':'🚀 Start Your Creative Path',
+    'launch-desc':'Sign up for a free trial session and experience PROTOLAB.',
+    'launch-placeholder':'Your email',
+    'launch-btn':'🎯 Send',
+    'launch-note':'Free trial session · No obligation · All materials provided',
+    'footer-about':'About',
+    'footer-programs':'Programs',
+    'footer-contact':'Contact',
+    'footer-partners':'Partners',
+    'footer-copy':'© 2026 PROTOLAB — PROTO LAB SKOPJE · STEM HUB. All rights reserved.',
+    'footer-motto':'"A place where you finish with a product in hand, not just a diploma in a drawer."',
+    'modal-title':'🎵 PROTOLAB Anthem',
+    'modal-sub':'"I Create"',
+    'verse1-label':'Verse 1 · child\'s voice',
+    'verse1-text':'When I was small, I wondered,<br>what kind of world awaits me?<br>Will I just be an observer,<br>or on my path a decider?',
+    'refren-text':'I know, I know,<br>The future is in my hand!<br>From first draft, to flight plan,<br>I know, I know...',
+    'verse2-label':'Verse 2 · teen voice',
+    'verse2-text':'Now I am here, with tool in hand,<br>I work hard, I don\'t wait for luck.<br>From zero to project, with precise mind,<br>I build my own road.',
+    'refren-text2':'I know, I know,<br>The future is in my hand!<br>From first draft, to flight plan,<br>I know, I know...',
+    'verse3-label':'Verse 3 · youth voice',
+    'verse3-text':'The airplane flies, the ship already sails,<br>the code is written, new successes.<br>There is no coincidence, all is my effort,<br>in this world, I am the Creator, this is my judgment.',
+    'finale-text':'What will be? I will say.<br>What will be? I will build.<br>I already know, I already know...'
+  },
+  sl: {
+    'logo-sub':'PROTO LAB SKOPJE · STEM HUB',
+    'nav-categories':'Kategorije',
+    'nav-matrix':'CrossLab',
+    'nav-projects':'Grand Projekti',
+    'nav-usp':'Prednosti',
+    'nav-join':'Pridruži se',
+    'nav-extra':'Dodatne',
+    'hero-badge':'🚀 Najboljši STEM HUB v Makedoniji',
+    'hero-line1':'Imaš idejo',
+    'hero-line2':'ustvari izdelek',
+    'hero-desc':'PROTOLAB je kraj, kjer mladi ustvarjalci od 7 do 99 let učijo z ustvarjanjem — od modelarstva do robotike, od kemije do 3D tiska.',
+    'hero-btn1':'🎯 Začni svoj projekt',
+    'hero-btn2':'Oglej si programe →',
+    'stat1':'Glavne sekcije',
+    'stat2':'CrossLab kombinacije',
+    'stat3':'Grand projekti',
+    'hymna-title':'🎵 Himna PROTOLAB — „Jaz ustvarjam“',
+    'hymna-line':'"Prihodnost je v moji dlani! Od prvega osnutka do načrta letenja, jaz vem, jaz vem..."',
+    'hymna-click':'📖 Klikni za celotno besedilo',
+    'hymna-open':'[odpri]',
+    'cat-title':'Glavne kategorije',
+    'cat-desc':'Štiri sekcije, ki sestavljajo PROTOLAB — vsak projekt mora iti skozi vsaj 2.',
+    'cat-mod-desc':'Letalski, ladijski, raketni, gradbeni, vozila, diorame — tradicionalna ročna izdelava',
+    'cat-mod-tag1':'Letala',
+    'cat-mod-tag2':'Ladje',
+    'cat-mod-tag3':'Rakete',
+    'cat-mod-tag4':'Diorame',
+    'cat-met-desc':'Elektronika, Arduino, Raspberry Pi, robotika, IoT, AI — digitalne tehnologije',
+    'cat-met-tag1':'Arduino',
+    'cat-met-tag2':'Robotika',
+    'cat-met-tag3':'IoT',
+    'cat-met-tag4':'Python',
+    'cat-sci-desc':'Kemični poskusi, polimeri, fizika, biologija, astronomija — DaVinci stil',
+    'cat-sci-tag1':'Kemija',
+    'cat-sci-tag2':'Fizika',
+    'cat-sci-tag3':'Biologija',
+    'cat-sci-tag4':'Astronomija',
+    'cat-fab-desc':'3D tiskalnik, CNC rezkanje, CO2 laser, vinil, posebne tehnike — ideja → izdelek',
+    'cat-fab-tag1':'3D Tisk',
+    'cat-fab-tag2':'CNC',
+    'cat-fab-tag3':'Laser',
+    'cat-fab-tag4':'Vinil',
+    'matrix-title':'CrossLab Matrica',
+    'matrix-desc':'21 kombinacij med sekcijami — vsak projekt mora iti skozi vsaj 2.',
+    'legend-5':'Vrhunski ★★★★★',
+    'legend-4':'Močan ★★★★',
+    'legend-3':'Dober ★★★',
+    'legend-2':'Možen ★★',
+    'close':'✕ Zapri',
+    'triple-title':'Triple+ CrossLab projekti (3+ sekcij)',
+    'grand-title':'Grand Projekti',
+    'grand-desc':'Timski CrossLab projekti, kjer vsaka sekcija prispeva k skupnemu končnemu izdelku.',
+    'extra-title':'Dodatne kategorije',
+    'extra-desc':'Tri kategorije, ki krepijo in dopolnjujejo vse ostale.',
+    'extra1-title':'🎬 Mediji in Digitalna produkcija',
+    'extra1-desc':'Vsak projekt se dokumentira, snema in promovira.',
+    'extra1-item1':'Fotografiranje projektov',
+    'extra1-item2':'Video produkcija (YouTube/TikTok)',
+    'extra1-item3':'Podcast in zvočna obdelava',
+    'extra1-item4':'Grafično oblikovanje',
+    'extra1-item5':'2D animacija',
+    'extra1-item6':'Digitalni marketing',
+    'extra2-title':'🌱 Trajnostna energija in Okolje',
+    'extra2-desc':'Zelena tehnologija je prihodnost vseh inženirskih disciplin.',
+    'extra2-item1':'Sončne celice (mini sistemi)',
+    'extra2-item2':'Vetrne turbine',
+    'extra2-item3':'Hidroponika in akvaponika',
+    'extra2-item4':'Recikliranje in biomateriali',
+    'extra2-item5':'Spremljanje zraka/vode',
+    'extra2-item6':'Bioplin in kompostiranje',
+    'extra3-title':'💼 Poslovanje in Podjetništvo',
+    'extra3-desc':'Izdelek je ustvarjen — naslednji korak je prodaja.',
+    'extra3-item1':'Poslovni načrt za projekt',
+    'extra3-item2':'Crowdfunding (Kickstarter)',
+    'extra3-item3':'Pitch predstavitve',
+    'extra3-item4':'Osnove intelektualne lastnine',
+    'extra3-item5':'Trženje izdelka',
+    'extra3-item6':'Junior Startup program',
+    'usp-title':'USP in Poslovne prednosti',
+    'usp-desc':'Kaj naredi PROTOLAB edinstven na trgu.',
+    'testimonial-title':'Kaj pravijo naši ustvarjalci',
+    'testimonial-desc':'Resnične zgodbe otrok, staršev in mentorjev.',
+    'testimonial1':'"Moj sin je v 3 mesecih zgradil svojega prvega robota. Ponosen sem na njegov napredek in navdušenje."',
+    'testimonial1-author':'Ana M. — starš',
+    'testimonial2':'"PROTOLAB mi je dal priložnost, da se učim z ustvarjanjem. Zdaj vem, kako delujejo senzorji in Arduino."',
+    'testimonial2-author':'Marko S. — udeleženec, 14 let',
+    'testimonial3':'"Kot inženir redko vidim kraj, kjer se otroci učijo tako praktično. To je prihodnost izobraževanja."',
+    'testimonial3-author':'Dr. Peter J. — mentor',
+    'plans-title':'Izberi svojo ustvarjalno pot',
+    'plans-desc':'Ne glede na to, ali si začetnik ali že ustvarjaš — imamo program zate.',
+    'plan1-name':'🚀 Explorer',
+    'plan1-desc':'Za radovedne otroke, ki se želijo učiti skozi igro',
+    'plan1-period':'mesečno · 1 ura tedensko',
+    'plan1-btn':'Pridruži se',
+    'plan1-f1':'7–12 let',
+    'plan1-f2':'Modelarstvo — karton, balza, papir',
+    'plan1-f3':'Elektronika — LED na breadboard',
+    'plan1-f4':'Scratch programiranje',
+    'plan1-f5':'Prvi fizični izdelek',
+    'plan1-f6':'Voden z mentorjem',
+    'plan2-name':'🔧 Builder',
+    'plan2-desc':'Za najstnike, ki želijo graditi v ekipah in ustvarjati',
+    'plan2-period':'mesečno · 2 uri tedensko',
+    'plan2-btn':'Pridruži se',
+    'plan2-f1':'13–18 let',
+    'plan2-f2':'Letalsko, ladijsko, raketno modelarstvo',
+    'plan2-f3':'Arduino, senzorji, motorji',
+    'plan2-f4':'3D tisk in CO2 laser',
+    'plan2-f5':'CrossLab timski projekt',
+    'plan2-f6':'Grand Project predstavitev',
+    'plan3-name':'⚡ Maker',
+    'plan3-desc':'Za odrasle navdušence in študente z lastnimi idejami',
+    'plan3-period':'mesečno · prilagodljiv čas',
+    'plan3-btn':'Pridruži se',
+    'plan3-f1':'19+ let',
+    'plan3-f2':'Samostojni projekti',
+    'plan3-f3':'Napredna robotika in AI',
+    'plan3-f4':'Fab Services — CNC, 3D, laser',
+    'plan3-f5':'Mentorska podpora',
+    'plan3-f6':'Startup podpora',
+    'plan4-name':'🏭 Fab Lab',
+    'plan4-desc':'Za podjetja, šole in organizacije',
+    'plan4-price':'dogovor',
+    'plan4-period':'timski paketi · prilagojeno',
+    'plan4-btn':'Kontakt',
+    'plan4-f1':'Teambuilding in delavnice',
+    'plan4-f2':'Dostop do vse opreme',
+    'plan4-f3':'Šolske obiske',
+    'plan4-f4':'Korporativne dogodke',
+    'plan4-f5':'Prilagojen program',
+    'plan4-f6':'Potrdilo o udeležbi',
+    'launch-title':'🚀 Začni svojo ustvarjalno pot',
+    'launch-desc':'Prijavi se na brezplačno poskusno uro in doživi PROTOLAB.',
+    'launch-placeholder':'Tvoj e-naslov',
+    'launch-btn':'🎯 Pošlji',
+    'launch-note':'Brezplačna poskusna ura · Brez obveznosti · Vsi materiali so zagotovljeni',
+    'footer-about':'O nas',
+    'footer-programs':'Programi',
+    'footer-contact':'Kontakt',
+    'footer-partners':'Partnerji',
+    'footer-copy':'© 2026 PROTOLAB — PROTO LAB SKOPJE · STEM HUB. Vse pravice pridržane.',
+    'footer-motto':'"Kraj, kjer končaš z izdelkom v roki, ne samo z diplomo v predalu."',
+    'modal-title':'🎵 Himna PROTOLAB',
+    'modal-sub':'„Jaz ustvarjam“',
+    'verse1-label':'Kitica 1 · otroški glas',
+    'verse1-text':'Ko sem bil majhen, sem se spraševal,<br>kakšen svet me čaka?<br>Ali bom samo opazovalec,<br>ali na svoji poti odločevalec?',
+    'refren-text':'Jaz vem, jaz vem,<br>Prihodnost je v moji dlani!<br>Od prvega osnutka do načrta letenja,<br>Jaz vem, jaz vem...',
+    'verse2-label':'Kitica 2 · najstniški glas',
+    'verse2-text':'Zdaj sem tukaj, z orodjem v roki,<br>delam pridno, ne čakam na srečo.<br>Od nič do projekta, z natančnim umom,<br>gradim svojo lastno pot.',
+    'refren-text2':'Jaz vem, jaz vem,<br>Prihodnost je v moji dlani!<br>Od prvega osnutka do načrta letenja,<br>Jaz vem, jaz vem...',
+    'verse3-label':'Kitica 3 · mladinski glas',
+    'verse3-text':'Letalo leti, ladja že pluje,<br>koda se piše, novi uspehi.<br>Ni naključje, vse je moj trud,<br>v tem svetu sem jaz Stvarnik, to je moja sodba.',
+    'finale-text':'Kaj bo? Jaz bom rekel.<br>Kaj bo? Jaz bom zgradil.<br>Jaz že vem, Jaz že vem...'
+  }
+};
+
+// ═══════════════════════════════════════════
+// FUNCTIONS
+// ═══════════════════════════════════════════
+
+let currentLang = 'mk';
+let audioPlaying = false;
+const audioEl = document.getElementById('hymnaAudio');
+const playBtn = document.getElementById('playBtn');
+
+function toggleAudio() {
+  if(audioPlaying) {
+    audioEl.pause();
+    audioPlaying = false;
+    playBtn.textContent = '▶';
+    playBtn.classList.remove('playing');
+  } else {
+    audioEl.play().catch(e => {
+      toast('🎵 Izvini, MP3 datoteka ni najdena. Preveri ali je "himna.mp3" v isti mapi.');
+    });
+    audioPlaying = true;
+    playBtn.textContent = '⏸';
+    playBtn.classList.add('playing');
+  }
+}
+
+audioEl.addEventListener('ended', function() {
+  audioPlaying = false;
+  playBtn.textContent = '▶';
+  playBtn.classList.remove('playing');
+});
+
+// ─── LANGUAGE SWITCHER ───
+function switchLanguage(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  
+  const t = translations[lang];
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    if(t[key] !== undefined) {
+      el.innerHTML = t[key];
+    }
+  });
+  
+  buildMatrix();
+  localStorage.setItem('protolab-lang', lang);
+}
+
+// ─── GET KEY ───
+function getKey(r,c){
+  if(CROSSES[r+'-'+c]) return r+'-'+c;
+  if(CROSSES[c+'-'+r]) return c+'-'+r;
+  return null;
+}
+
+// ─── BUILD MATRIX ───
+function buildMatrix(){
+  const tbody = document.getElementById('matrix-body');
+  let html = '';
+  ROWS.forEach(row=>{
+    html += `<tr><th style="text-align:left;font-weight:700;color:${row.color};border-left:3px solid ${row.color}">${row.code}</th>`;
+    COLS.forEach(col=>{
+      if(row.code===col){ html+=`<td class="c1" style="font-size:11px">—</td>`; return; }
+      const k=getKey(row.code,col);
+      if(!k){ html+=`<td class="c1" style="font-size:11px">—</td>`; return; }
+      const cx=CROSSES[k];
+      const cls=cx.stars===5?'c5':cx.stars===4?'c4':cx.stars===3?'c3':'c2';
+      const starsStr='★'.repeat(cx.stars);
+      html+=`<td><div class="cell ${cls}" onclick="showDetail('${k}')">`+
+            `<span class="cell-stars">${starsStr}</span>`+
+            `<span class="cell-lbl">${cx.label}</span></div></td>`;
+    });
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+
+  // Triple projects
+  const tg = document.getElementById('triple-grid');
+  tg.innerHTML = TRIPLES.map(t=>`<div class="triple" onclick="toast('${t.title} — klikni za detajli')">
+    <div class="triple-title">${t.title}</div>
+    <div class="triple-desc">${t.desc}</div>
+    <div class="triple-tags">${t.tags.map(tag=>`<span class="triple-tag">${tag}</span>`).join('')}</div>
+  </div>`).join('');
+
+  // Grand Projects
+  const gg = document.getElementById('grand-grid');
+  gg.innerHTML = GRAND_PROJECTS.map(p=>`<div class="grand-card">
+    <div class="g-title">${p.title}</div>
+    <div class="g-desc">${p.desc}</div>
+    <div class="g-tags">${p.tags.map(t=>`<span class="g-tag">${t}</span>`).join('')}</div>
+  </div>`).join('');
+
+  // USP
+  const ug = document.getElementById('usp-grid');
+  ug.innerHTML = USP_DATA.map(u=>`<div class="usp-card">
+    <div class="usp-icon">${u.icon}</div>
+    <div class="usp-title">${u.title}</div>
+    <div class="usp-desc">${u.desc}</div>
+  </div>`).join('');
+}
+
+// ─── SHOW DETAIL ───
+function showDetail(key){
+  const cx = CROSSES[key];
+  if(!cx) return;
+  const parts = key.split('-');
+  const c1col = ROWS.find(r=>r.code===parts[0])?.color || COL_COLORS[parts[0]] || '#888';
+  const c2col = COL_COLORS[parts[1]] || '#888';
+  const stars = '★'.repeat(cx.stars) + '☆'.repeat(5-cx.stars);
+  const lvl = cx.stars===5?'Vrven':cx.stars===4?'Silen':cx.stars===3?'Dobar':'Možen';
+
+  document.getElementById('dp-title').textContent = `${parts[0]} + ${parts[1]} — ${cx.label}`;
+  document.getElementById('dp-sub').textContent = `${stars} · ${lvl}`;
+  document.getElementById('dp-badge1').textContent = parts[0];
+  document.getElementById('dp-badge1').style.background = c1col;
+  document.getElementById('dp-badge2').textContent = parts[1];
+  document.getElementById('dp-badge2').style.background = c2col;
+
+  document.getElementById('dp-body').innerHTML = `<div class="proj-grid">${
+    cx.projects.map(p=>`<div class="proj">
+      <div class="proj-title"><div class="proj-dot" style="background:${p.color}"></div>${p.title}</div>
+      ${p.items.map(i=>`<div class="proj-item">${i}</div>`).join('')}
+    </div>`).join('')
+  }</div>`;
+
+  document.getElementById('detail-panel').classList.add('show');
+  document.getElementById('detail-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ─── SIDEBAR ───
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('burger-btn').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('burger-btn').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+
+// ─── TOAST ───
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(el._timer);
+  el._timer=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ─── HYMNA MODAL ───
+function openHymna(){
+  document.getElementById('hymna-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeHymna(){
+  document.getElementById('hymna-modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('hymna-modal').addEventListener('click', function(e){
+  if(e.target===this) closeHymna();
+});
+
+// ─── SCROLL ANIMATIONS ───
+function handleScrollReveal(){
+  const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  const windowHeight = window.innerHeight;
+  reveals.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const triggerPoint = 120;
+    if(rect.top < windowHeight - triggerPoint){
+      el.classList.add('visible');
+    }
+  });
+}
+
+// ─── COUNTER ANIMATION ───
+function animateCounters(){
+  document.querySelectorAll('.counter').forEach(counter => {
+    const target = parseInt(counter.getAttribute('data-target'));
+    if(target === 0 || isNaN(target)) return;
+    const duration = 1500;
+    const startTime = performance.now();
+    function updateCounter(currentTime){
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      counter.textContent = current;
+      if(progress < 1) requestAnimationFrame(updateCounter);
+      else counter.textContent = target;
+    }
+    requestAnimationFrame(updateCounter);
+  });
+}
+
+// ─── TOPBAR SCROLL EFFECT ───
+function handleScroll(){
+  const topbar = document.getElementById('topbar');
+  if(window.scrollY > 50) topbar.classList.add('scrolled');
+  else topbar.classList.remove('scrolled');
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', function(){
+  const savedLang = localStorage.getItem('protolab-lang') || 'mk';
+  switchLanguage(savedLang);
+  
+  buildMatrix();
+  handleScrollReveal();
+  animateCounters();
+  setTimeout(animateCounters, 500);
+
+  window.addEventListener('scroll', function(){
+    handleScroll();
+    handleScrollReveal();
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e){
+      const href = this.getAttribute('href');
+      if(href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if(target){
+        target.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+  });
+});
+
+setTimeout(animateCounters, 800);
+</script>
+</body>
+</html>
